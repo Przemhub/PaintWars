@@ -49,11 +49,11 @@ class Game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit(0)
+            self.screen.fill((155, 232, 255))
             self.player_controller.move_event()
             self.player_controller.player_service.jumping_player_event()
-            self.screen.fill((155, 232, 255))
             self.draw()
-            self.clock.tick(30)
+            self.clock.tick(45)
             pygame.display.flip()
 
 

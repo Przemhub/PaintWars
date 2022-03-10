@@ -10,6 +10,5 @@ class MapObject(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_threshold(self.collision_image, (0, 0, 0, 255), (255, 255, 255, 255))
         self.rect = pygame.Rect(x, y, self.image.get_width(), self.image.get_height())
 
-
-    def move(self, x, y):
+    def update(self, x, y):
         self.rect = self.rect.move(x * self.speed, y * self.speed)

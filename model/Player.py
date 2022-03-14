@@ -6,6 +6,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.speed = 9
         self.jumped = False
+        self.shot = False
         self.looks_left = False
         self.looks_right = True
         self.stand_right = pygame.image.load("resources/character/player_stand.png")
@@ -27,9 +28,16 @@ class Player(pygame.sprite.Sprite):
         ]
         self.jumping_left = [pygame.transform.flip(image, True, False) for image in self.jumping_right]
         self.image = self.stand_right
+        self.shooting_right = [
+            pygame.image.load("resources/character/player_shoot1.png"),
+            pygame.image.load("resources/character/player_shoot2.png"),
+            pygame.image.load("resources/character/player_shoot3.png"),
+        ]
+        self.shooting_left = [pygame.transform.flip(image, True, False) for image in self.shooting_right]
         self.run_frame = 0
         self.jump_frame = 0
-        self.rect = pygame.Rect(x, y, self.image.get_width(), self.image.get_height())
+        self.shoot_frame = 0
+        self.rect = pygame.Rect(x, y, self.image.get_width(), self.image.get_height() - 8)
 
     def move(self, x, y):
         self.rect = self.rect.move(x * self.speed, y * self.speed)
@@ -56,7 +64,32 @@ class Player(pygame.sprite.Sprite):
         self.looks_right = True
         self.looks_left = False
         self.image = self.jumping_right[self.jump_frame]
-        print("image jump")
         self.jump_frame += 1
         if self.jump_frame > 3:
             self.jump_frame = 0
+
+    def jump_left(self):
+        self.looks_right = False
+        self.looks_left = True
+        self.image = self.jumping_left[self.jump_frame]
+        self.jump_frame += 1
+        if self.jump_frame > 3:
+            self.jump_frame = 0
+
+    def shoot_right(self):
+        self.looks_right = True
+        self.looks_left = False
+        self.image = self.shooting_right[self.shoot_frame]
+        self.shoot_frame += 1
+        if self.shoot_frame >= len(self.shooting_right):
+            self.shot = False
+            self.shoot_frame = 0
+
+    def shoot_left(self):
+        self.looks_right = False
+        self.looks_left = True
+        self.image = self.shooting_left[self.shoot_frame]
+        self.shoot_frame += 1
+        if self.shoot_frame >= len(self.shooting_right):
+            self.shot = False
+            self.shoot_frame = 0

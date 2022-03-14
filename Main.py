@@ -43,6 +43,8 @@ class Game():
     def draw(self):
         self.screen.blit(self.player_controller.player.image, self.player_controller.player.rect)
         self.map_repository.floor.draw(self.screen)
+        for bullet in self.player_controller.player_service.bullets_shot:
+            self.screen.blit(bullet.image, bullet.rect)
 
     def main_loop(self):
         while True:
@@ -52,6 +54,8 @@ class Game():
             self.screen.fill((155, 232, 255))
             self.player_controller.move_event()
             self.player_controller.player_service.jumping_player_event()
+            self.player_controller.shoot_event()
+            self.player_controller.player_service.bullets_event()
             self.draw()
             self.clock.tick(45)
             pygame.display.flip()

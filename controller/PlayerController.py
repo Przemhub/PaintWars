@@ -15,7 +15,7 @@ class PlayerController:
             self.player_service.runs_right()
         elif pygame.key.get_pressed()[pygame.K_a]:
             self.player_service.runs_left()
-        elif not self.player.jumped:
+        elif not self.player.jumped and not self.player.shot:
             self.player_service.idle()
         if pygame.key.get_pressed()[pygame.K_w] and self.player_service.can_jump():
             self.player_service.jumps_anim()
@@ -23,3 +23,11 @@ class PlayerController:
 
         if not self.collision_service.collides_with_floor(self.player):
             self.player.move(0, 1)
+
+    def shoot_event(self):
+        if not self.player.jumped:
+            if self.player.shot:
+                self.player_service.shoots()
+            elif pygame.key.get_pressed()[pygame.K_SPACE]:
+                self.player.shot = True
+
